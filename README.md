@@ -1,7 +1,7 @@
 Spinners
 =======
 
-Throw out your animated gifs! Spinners is a JavaScript library that gives you highly configurable loading animations using nothing but Canvas and VML on Internet Explorer.
+Throw out your animated gifs! Spinners is a JavaScript library that gives you highly configurable loading animations using nothing but Canvas (and VML on Internet Explorer).
 
 
 ## Installation
@@ -12,14 +12,14 @@ Download [ExplorerCanvas][2] and include it.
 
 Include spinners.js below these files.
 
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-        <script type="text/javascript" src="/js/bridge/bridge.js"></script>
-         
-        <!--[if lt IE 9]>
-          <script type="text/javascript" src="/js/excanvas.js"></script>
-        <![endif]-->
-         
-        <script type="text/javascript" src="/js/spinners.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript" src="/js/bridge/bridge.js"></script>
+    
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="/js/excanvas.js"></script>
+    <![endif]-->
+    
+    <script type="text/javascript" src="/js/spinners.js"></script>
 
 
 ## Usage
