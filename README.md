@@ -26,10 +26,10 @@ Include spinners.js below these files.
 
 Creating a spinners is as easy as:
 
-        new Spinner('id');
+        new Spinner('id').play();
         
         // or provide a dom node
-        new Spinner(document.getElementById('id'));
+        new Spinner(document.getElementById('id')).play();
 
 To create more advanced spinners you can provide an optional second parameter with options:
 
