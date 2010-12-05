@@ -35,10 +35,8 @@ To create more advanced spinners you can provide an optional second parameter wi
 
     new Spinner('insertSpinner', {
       radii:     [32, 42],
-      dash: {
-        width: 1,
-        color: '#ed145b'
-      },
+      color:     '#ed145b',
+      dashWidth: 1,
       dashes:    75,
       opacity:   .8,
       speed:     .7

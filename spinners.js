@@ -236,10 +236,10 @@ function Spinner(element) {
   Spinners.removeDetached();
 
   this.options = $B.Object.extend({
-    radii: [8, 12],
+    radii: [5, 10],
     color: '#000',
-    dashWidth: 1.5,
-    dashes:  24,
+    dashWidth: 1.8,
+    dashes:  12,
     opacity: 1,
     padding: 3,
     speed:   .7
