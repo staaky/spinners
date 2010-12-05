@@ -242,17 +242,13 @@ function Spinner(element) {
     dashes:  24,
     opacity: 1,
     padding: 3,
-    speed:   .7,
-    build:   true
+    speed:   .7
   }, arguments[1]);
 
   this._position = 0;
   this._state = 'stopped';
 
-  // In some cases IE6 doesn't show a spinner when it's build
-  // inside a hidden element. This allows you to delay the build
-  // to avoid that
-  if (this.options.build) this.build();
+  this.build();
 
   Spinners.add(this);
 }
