@@ -237,10 +237,8 @@ function Spinner(element) {
 
   this.options = $B.Object.extend({
     radii: [8, 12],
-    dash: {
-      width: 1.5,
-      color: '#000'
-    },
+    color: '#000',
+    dashWidth: 1.5,
     dashes:  24,
     opacity: 1,
     padding: 3,
@@ -310,11 +308,10 @@ $B.Object.extend(Spinner.prototype, (function() {
     this.ctx.clearRect(workspaceNegRadius, workspaceNegRadius, workspaceDiameter, workspaceDiameter);
 
     var rotation  = radian(360 / dashes),
-        opacities = scrollArray(workspace.opacities, position * -1),
-        color     = this.options.dash.color;
+        opacities = scrollArray(workspace.opacities, position * -1);
 
     for (var i = 0, len = dashes; i < len; i++) {
-      this.drawDash(opacities[i], color);
+      this.drawDash(opacities[i], this.options.color);
       this.ctx.rotate(rotation);
     }
   }
@@ -386,7 +383,6 @@ $B.Object.extend(Spinner.prototype, (function() {
 
     this._pause();
 
-    // TODO: position weer naar 0 en 0 tekenen
     this._position = 0;
     this.drawPosition(0);
 
@@ -415,7 +411,7 @@ $B.Object.extend(Spinner.prototype, (function() {
     var options   = this.options,
         dashes    = options.dashes,
         radii     = options.radii,
-        dashWidth = options.dash.width,
+        dashWidth = options.dashWidth,
         minRadius = Math.min(radii[0], radii[1]),
         maxRadius = Math.max(radii[0], radii[1]),
 
