@@ -1,4 +1,4 @@
-/*  Spinners 1.1
+/*  Spinners 1.2
  *  (c) 2010 Nick Stakenburg - http://www.nickstakenburg.com
  *
  *  Spinners is freely distributable under the terms of an MIT-style license.
@@ -11,7 +11,7 @@
  */
 
 var Spinners = {
-  Version: '1.1'
+  Version: '1.2'
 };
 
 (function($B) {
@@ -66,11 +66,11 @@ $B.Object.extend(Spinners, {
       if (spinner.element == element)
         matched = spinner;
     });
-    return matched;    
+    return matched;
   },
 
   add: function(spinner) {
-    this.spinners.push(spinner);  
+    this.spinners.push(spinner);
   },
 
   remove: function(element) {
@@ -242,19 +242,22 @@ function Spinner(element) {
     dashes:  12,
     opacity: 1,
     padding: 3,
-    speed:   .7
+    speed:   .7,
+    build:   true
   }, arguments[1]);
 
   this._position = 0;
   this._state = 'stopped';
 
-  this.build();
+  // IE VML needs the element build inside an element attached
+  // to the DOM, this allows you to delay the build and do it manually
+  if (this.options.build) this.build();
 
   Spinners.add(this);
 }
 
 $B.Object.extend(Spinner.prototype, (function() {
-  function remove() { 
+  function remove() {
     if (!this.canvas) return;
 
     this.stop();
@@ -340,9 +343,9 @@ $B.Object.extend(Spinner.prototype, (function() {
 
   function nextPosition() {
     if (this._position == this.options.dashes - 1)
-    this._position = -1;
+      this._position = -1;
     this._position++;
-    this.drawPosition(this._position); 
+    this.drawPosition(this._position);
   }
 
   /*
