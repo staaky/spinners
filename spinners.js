@@ -1,5 +1,5 @@
-/*  Spinners 1.2
- *  (c) 2010 Nick Stakenburg - http://www.nickstakenburg.com
+/*  Spinners 1.2.1
+ *  (c) 2010-2011 Nick Stakenburg - http://www.nickstakenburg.com
  *
  *  Spinners is freely distributable under the terms of an MIT-style license.
  *
@@ -11,7 +11,7 @@
  */
 
 var Spinners = {
-  Version: '1.2'
+  Version: '1.2.1'
 };
 
 (function($B) {
@@ -82,16 +82,28 @@ $B.Object.extend(Spinners, {
   },
 
   // remove all spinners that are not attached to the DOM
-  removeDetached: function() {
-    $B.each(this.spinners, function(spinner) {
-      try {
-        if (!spinner.element.offsetParent)
-          this.remove(spinner.element);  
-      } catch(e) {
-        this.remove(spinner.element);
+  removeDetached: (function() {
+    function isAttached(node) {
+      var topAncestor = findTopAncestor(node);
+      return !!(topAncestor && topAncestor.body);
+    }
+
+    function findTopAncestor(node) {
+      var ancestor = node;
+      while(ancestor && ancestor.parentNode) {
+        ancestor = ancestor.parentNode;
       }
-    }, this);
-  }
+      return ancestor;
+    }
+
+    return function() {
+      $B.each(this.spinners, function(spinner) {
+        if (spinner.element && !isAttached(spinner.element)) {
+          this.remove(spinner.element);
+        }
+      }, this);
+    }
+  })()
 });
 
 
