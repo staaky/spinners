@@ -1,4 +1,4 @@
-/*  Spinners 1.2.1
+/*  Spinners 1.2.1.1
  *  (c) 2010-2011 Nick Stakenburg - http://www.nickstakenburg.com
  *
  *  Spinners is freely distributable under the terms of an MIT-style license.
@@ -19,7 +19,7 @@ $B.Object.extend(Spinners, {
   spinners: [],
 
   Required: {
-    Bridge: '0.2.0'
+    Bridge: '1.0_alpha2'
   },
 
   support: {
