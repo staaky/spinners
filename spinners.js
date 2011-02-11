@@ -11,7 +11,7 @@
  */
 
 var Spinners = {
-  Version: '1.2.1'
+  Version: '1.2.1.1'
 };
 
 (function($B) {
@@ -55,7 +55,7 @@ $B.Object.extend(Spinners, {
 
     // require excanvas
     if (!this.support.canvas && !window.G_vmlCanvasManager)
-      throw('Spinners requires ExplorerCanvas');
+      alert('Spinners requires ExplorerCanvas (excanvas.js)');
   },
 
   get: function(element) {
