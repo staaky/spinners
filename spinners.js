@@ -1,4 +1,4 @@
-/*  Spinners 1.2.1.1
+/*  Spinners 1.2.2
  *  (c) 2010-2011 Nick Stakenburg - http://www.nickstakenburg.com
  *
  *  Spinners is freely distributable under the terms of an MIT-style license.
@@ -8,10 +8,12 @@
  *
  *  Requires ExplorerCanvas to work in Internet Explorer:
  *  http://code.google.com/p/explorercanvas
+ *
+ *  GitHub: https://github.com/staaky/spinners
  */
 
 var Spinners = {
-  Version: '1.2.1.1'
+  Version: '1.2.2'
 };
 
 (function($B) {
@@ -19,7 +21,7 @@ $B.Object.extend(Spinners, {
   spinners: [],
 
   Required: {
-    Bridge: '1.0_alpha2'
+    Bridge: '1.0.4'
   },
 
   support: {
@@ -30,7 +32,8 @@ $B.Object.extend(Spinners, {
     try {
       document.write("<script type='text/javascript' src='" + source + "'><\/script>");
     } catch(e) {
-      Bridge.$$('head').source[0].appendChild(new Bridge.Element('script', {
+      var head = document.head || Bridge.$$('head').source[0];
+      head.appendChild(new Bridge.Element('script', {
           src: source,
           type: 'text/javascript'
       }));
@@ -41,7 +44,7 @@ $B.Object.extend(Spinners, {
     if ((typeof window[library] == 'undefined') ||
       (this.convertVersionString(window[library].Version) <
        this.convertVersionString(this.Required[library])))
-      throw('Spinners requires ' + (name || library) + ' >= ' + this.Required[library]);
+      alert('Spinners requires ' + (name || library) + ' >= ' + this.Required[library]);
   },
 
   convertVersionString: function(versionString) {
