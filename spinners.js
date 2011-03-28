@@ -1,4 +1,4 @@
-/*  Spinners 1.2.2
+/*  Spinners 1.3.0
  *  (c) 2010-2011 Nick Stakenburg - http://www.nickstakenburg.com
  *
  *  Spinners is freely distributable under the terms of an MIT-style license.
@@ -13,26 +13,30 @@
  */
 
 var Spinners = {
-  Version: '1.2.2'
+  Version: '1.3.0'
 };
 
 (function($B) {
 $B.Object.extend(Spinners, {
   spinners: [],
+  enabled: false,
 
   Required: {
-    Bridge: '1.0.4'
+    Bridge: '1.1.0'
   },
 
   support: {
-    canvas: !!document.createElement('canvas').getContext
+    canvas: (function() {
+      var canvas = document.createElement('canvas');
+      return !!(canvas.getContext && canvas.getContext('2d'));
+    })()
   },
 
   insertScript: function(source) {
     try {
       document.write("<script type='text/javascript' src='" + source + "'><\/script>");
     } catch(e) {
-      var head = document.head || Bridge.$$('head').source[0];
+      var head = document.head || Bridge.$$('head').source[0].source;
       head.appendChild(new Bridge.Element('script', {
           src: source,
           type: 'text/javascript'
@@ -57,8 +61,14 @@ $B.Object.extend(Spinners, {
     this.require('Bridge');
 
     // require excanvas
-    if (!this.support.canvas && !window.G_vmlCanvasManager)
-      alert('Spinners requires ExplorerCanvas (excanvas.js)');
+    if (!this.support.canvas && !window.G_vmlCanvasManager) {
+      if (!!(window.attachEvent && navigator.userAgent.indexOf('Opera') === -1)) {
+        alert('Spinners requires ExplorerCanvas (excanvas.js)');
+      }
+      else return;
+    }
+
+    this.enabled = true;
   },
 
   get: function(element) {
@@ -482,4 +492,16 @@ $B.Object.extend(Spinner.prototype, (function() {
 window.Spinner = Spinner;
 
 Spinners.start();
+
+// if there's no support for Canvas/VML, make sure everything dies silently
+if (!Spinners.enabled) {
+  $B.each($B.Object.keys(Spinner.prototype), function(name) {
+    Spinner.prototype[name] = $B.K;
+  });
+  Spinner = $B.K;
+
+  $B.each('get add remove removeDetached'.split(' '), function(name) {
+    Spinners[name] = $B.K;
+  });
+}
 })(Bridge);
