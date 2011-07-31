@@ -1,10 +1,7 @@
-/*  Spinners 1.3.0
+/*  Spinners 2.0_b1
  *  (c) 2010-2011 Nick Stakenburg - http://www.nickstakenburg.com
  *
  *  Spinners is freely distributable under the terms of an MIT-style license.
- *
- *  Works with your framework of choice using BridgeJS:
- *  http://www.github.com/staaky/bridgejs
  *
  *  Requires ExplorerCanvas to work in Internet Explorer:
  *  http://code.google.com/p/explorercanvas
@@ -12,142 +9,97 @@
  *  GitHub: https://github.com/staaky/spinners
  */
 
+(function() {
+
 var Spinners = {
-  Version: '1.3.0'
+  Version: '2.0_b1'
 };
 
-(function($B) {
-$B.Object.extend(Spinners, {
-  spinners: [],
-  enabled: false,
-
-  Required: {
-    Bridge: '1.1.0'
+// Helper methods based on Prototype and Underscore
+var _slice = Array.prototype.slice;
+var _ = {
+  extend: function(destination, source) {
+    for (var property in source)
+      destination[property] = source[property];
+    return destination;
   },
 
-  support: {
-    canvas: (function() {
-      var canvas = document.createElement('canvas');
-      return !!(canvas.getContext && canvas.getContext('2d'));
-    })()
+  'break': {},
+
+  _each: function(array, iterator) {
+    for (var i = 0, length = array.length; i < length; i++)
+      iterator(array[i]);
   },
 
-  insertScript: function(source) {
+  each: function(array, iterator, context) {
+    var index = 0;
+
     try {
-      document.write("<script type='text/javascript' src='" + source + "'><\/script>");
-    } catch(e) {
-      var head = document.head || Bridge.$$('head').source[0].source;
-      head.appendChild(new Bridge.Element('script', {
-          src: source,
-          type: 'text/javascript'
-      }));
+      this._each(array, function(value) {
+        iterator.call(context, value, index++);
+      });
+    } catch (e) {
+      if (e != _['break']) throw e;
     }
   },
 
-  require: function(library, name) {
-    if ((typeof window[library] == 'undefined') ||
-      (this.convertVersionString(window[library].Version) <
-       this.convertVersionString(this.Required[library])))
-      alert('Spinners requires ' + (name || library) + ' >= ' + this.Required[library]);
-  },
-
-  convertVersionString: function(versionString) {
-    var v = versionString.replace(/_.*|\./g, '');
-    v = parseInt(v + Bridge.String.times('0', 4 - v.length));
-    return versionString.indexOf('_') > -1 ? v - 1 : v;
-  },
-
-  start: function() {
-    this.require('Bridge');
-
-    // require excanvas
-    if (!this.support.canvas && !window.G_vmlCanvasManager) {
-      if (!!(window.attachEvent && navigator.userAgent.indexOf('Opera') === -1)) {
-        alert('Spinners requires ExplorerCanvas (excanvas.js)');
-      }
-      else return;
-    }
-
-    this.enabled = true;
-  },
-
-  get: function(element) {
-    element = $B.$(element).source;
-    if (!element) return;
-    var matched = null;
-    $B._each(this.spinners, function(spinner) {
-      if (spinner.element == element)
-        matched = spinner;
-    });
-    return matched;
-  },
-
-  add: function(spinner) {
-    this.spinners.push(spinner);
-  },
-
-  remove: function(element) {
-    var spinner = this.get(element);
-    if (spinner) {
-      spinner.remove();
-      this.spinners = $B.Array.without(this.spinners, spinner);
-    }
-  },
-
-  // remove all spinners that are not attached to the DOM
-  removeDetached: (function() {
-    function isAttached(node) {
-      var topAncestor = findTopAncestor(node);
-      return !!(topAncestor && topAncestor.body);
-    }
-
-    function findTopAncestor(node) {
-      var ancestor = node;
-      while(ancestor && ancestor.parentNode) {
-        ancestor = ancestor.parentNode;
-      }
-      return ancestor;
-    }
-
+  bind: function(fn, object) {
+    var args = _slice.call(arguments, 2);
     return function() {
-      $B.each(this.spinners, function(spinner) {
-        if (spinner.element && !isAttached(spinner.element)) {
-          this.remove(spinner.element);
-        }
-      }, this);
-    }
-  })()
-});
+      return fn.apply(object, args.concat(_slice.call(arguments)));
+    };
+  },
+  
+  scroll: function(array, distance) {
+    if (!distance) return array;
+    var first = array.slice(0, distance),
+        last  = array.slice(distance, array.length);
+    return last.concat(first);
+  },
 
+  any: function(object, iterator, context) {
+    var result = false;
+    _.each(object || [], function(value, index) {
+      if (result |= iterator.call(context, value, index)) return _['break'];
+    });
+    return !!result;
+  },
+
+  member: function(object, target) {
+    var found = false;
+    _.any(object || [], function(value) {
+      if (found = value === target) return true;
+    });
+    return found;
+  },
+
+  select: function(object, iterator, context) {
+    var results = [];
+    _.each(object || [], function(value, index) {
+      if (iterator.call(context, value, index)) results[results.length] = value;
+    });
+    return results;
+  },
+
+  without: function(array) {
+    var values = _slice.call(arguments, 1);
+    return _.select(array, function(value){ return !_.member(values, value); });
+  }
+};
 
 /*
  * Math
  */
-function pyth(a,b) {
-  return Math.sqrt(a*a + b*b);
-}
+function pyth(a,b) { return Math.sqrt(a*a + b*b); }
+function degrees(radian) { return (radian*180) / Math.PI; }
+function radian(degrees) { return (degrees*Math.PI) / 180; }
 
-function degrees(radian) {
-  return (radian*180) / Math.PI;
-}
-
-function radian(degrees) {
-  return (degrees*Math.PI) / 180;
-}
-
-function scrollArray(array, distance) {
-  if (!distance) return array;
-  var first = array.slice(0, distance),
-      last  = array.slice(distance, array.length);
-  return last.concat(first);
-}
-  
 /*
- * Helpers
+ * Canvas
  */
 var Canvas = {
   drawRoundedRectangle: function(ctx) {
-    var options = $B.Object.extend({
+    var options = _.extend({
       top:    0,
       left:   0,
       width:  0,
@@ -177,10 +129,13 @@ var Canvas = {
 };
 
 
+/*
+ * Color
+ */
 var Color = (function() {
   var hexNumber = '0123456789abcdef',
       hexRegExp = new RegExp('[' + hexNumber + ']', 'g');
-  
+
   function returnRGB(rgb) {
     var result = rgb;
     result.red = rgb[0];
@@ -223,14 +178,14 @@ var Color = (function() {
   }
 
   function hex2fill(hex, opacity) {
-    if ($B.Object.isUndefined(opacity)) opacity = 1;
+    if (typeof opacity == 'undefined') opacity = 1;
     return "rgba(" + hex2rgba(hex, opacity).join() + ")";
   }
 
   var rgb2hex = (function() {
     function toPaddedString(string, length, radix) {
       string = (string).toString(radix || 10);
-      return $B.String.times('0', length - string.length) + string;
+      return (new Array(length - string.length).join('0')) + string;
     }
 
     return function(red, green, blue) {
@@ -249,18 +204,219 @@ var Color = (function() {
 
 
 /*
+ * Spinners
+ */
+_.extend(Spinners, {
+  enabled: false,
+
+  support: {
+    canvas: (function() {
+      var canvas = document.createElement('canvas');
+      return !!(canvas.getContext && canvas.getContext('2d'));
+    })()
+  },
+
+  dom: (function() {
+    var select, match;
+    select = match = function() {
+      throw('Using Spinners with a CSS Selector requires a selector engine, include one of: Sizzle (jQuery 1.4+/Prototype 1.7+), NWMatcher or Slick (MooTools 1.3+).');  
+    };
+
+    if (window.Sizzle) {
+      select = Sizzle;
+      match = Sizzle.matches;
+    }
+    else if (window.jQuery) {
+      select = jQuery.find;
+      match = function(element, selector) {
+        return jQuery(element).is(selector);
+      }
+    }
+    else if (window.NWMatcher && NW.Dom) {
+      select = NW.Dom.select;
+      match  = NW.Dom.match;
+    }
+    else if (window.Prototype && Prototype.Selector) {
+      select = Prototype.Selector.select;
+      match  = Prototype.Selector.match;
+    }
+    else if (window.Slick) {
+      select = function(selector, context) {
+        return Slick.search(context || document, selector);
+      };
+      match = Slick.match;
+    }
+    
+    return {
+      select: select,
+      match:  match
+    };
+  })(),
+
+  init: function() {
+    // require excanvas
+    if (!this.support.canvas && !window.G_vmlCanvasManager) {
+      if (!!(window.attachEvent && navigator.userAgent.indexOf('Opera') === -1)) {
+        alert('Spinners requires ExplorerCanvas (excanvas.js)');
+      }
+      else return;
+    }
+
+    // make sure excanvas is initialized
+    (window.G_vmlCanvasManager && window.G_vmlCanvasManager.init_(document));
+
+    this.enabled = true;
+  },
+
+  create: function(element, options) {
+    Collection.create(element, options);
+    return this.get(element);
+  },
+
+  get: function(element) { return new Collection(element); },
+
+  play: function(element)   { this.get(element).play(); return this; },
+  pause: function(element)  { this.get(element).pause(); return this; },
+  toggle: function(element) { this.get(element).toggle(); return this; },
+  stop: function(element)   { this.get(element).stop(); return this; },
+
+  remove: function(element) { this.get(element).remove(); return this; },
+
+  removeDetached: function(element) {
+    All.removeDetached();
+    return this;
+  },
+
+  getDimensions: function(element) {
+    var spinner   = All.get(element)[0],
+        diameter  = spinner.getLayout().workspace.radius * 2;
+
+    return { width: diameter, height: diameter };
+  }
+});
+
+
+// We keep track spinners so things can be cleanup up when elements leave the DOM
+var All = {
+  spinners: [],
+
+  get: function(element) {
+    if (!element) return;
+    var matched = [];
+    _.each(this.spinners, function(spinner) {
+      if (spinner &&
+        (element.nodeType == 1 ? spinner.element == element : // element
+        Spinners.dom.match(spinner.element, element) // selector
+      )) {
+        matched.push(spinner);
+      }
+    });
+    return matched;
+  },
+
+  add: function(spinner) { this.spinners.push(spinner); },
+
+  remove: function(element) {
+    var elements = [];
+    _.each(this.spinners, function(spinner) {
+      if (element.nodeType == 1 ? spinner.element == element :
+        Spinners.dom.match(spinner.element, element)
+      ) {
+        elements.push(spinner.element);
+      }
+    });
+    _.each(elements, _.bind(function(r) { this.removeByElement(r); }, this));
+  },
+
+  removeByElement: function(element) {
+    var spinner = this.get(element)[0];
+    if (spinner) {
+      spinner.remove();
+      this.spinners = _.without(this.spinners, spinner);
+    }
+  },
+
+  // remove all spinners that are not attached to the DOM
+  removeDetached: (function() {
+    return function() {
+      _.each(this.spinners, function(spinner) {
+        if (spinner && !spinner.isAttached())
+          this.remove(spinner.element);
+      }, this);
+    };
+  })()
+};
+
+
+/*
+ * Collection
+ */
+function Collection(element) { this.element = element; };
+
+_.extend(Collection, {
+  create: function(element) {
+    if (!element) return;
+    var options = arguments[1] || {},
+        spinners = [];
+  
+    if (element.nodeType == 1) {
+      spinners.push(new Spinner(element, options));
+    }
+    else {
+      // if it's not a string, they assume selector
+      _.each(Spinners.dom.select(element) || [], function(el) {
+        spinners.push(new Spinner(el, options));
+      });
+    }
+
+    return spinners;
+  }
+});
+
+_.extend(Collection.prototype, {
+  items: function() {
+    return All.get(this.element);
+  },
+
+  play: function() {
+    _.each(this.items(), function(s) { s.play(); });
+    return this;
+  },
+
+  stop: function() {
+    _.each(this.items(), function(s) { s.stop(); });
+    return this;
+  },
+
+  pause: function() {
+    _.each(this.items(), function(s) { s.pause(); });
+    return this;
+  },
+  
+  toggle: function() {
+    _.each(this.items(), function(s) { s.toggle(); });
+    return this;
+  },
+
+  remove: function() {
+    All.remove(this.element);
+    return this;
+  }
+});
+
+
+/*
  * Spinner
  */
 function Spinner(element) {
-  element = $B.$(element);
   if (!element) return;
 
-  this.element = element.source;
+  this.element = element;
 
-  Spinners.remove(element);
-  Spinners.removeDetached();
+  All.remove(element);
+  All.removeDetached();
 
-  this.options = $B.Object.extend({
+  this.options = _.extend({
     radii: [5, 10],
     color: '#000',
     dashWidth: 1.8,
@@ -269,25 +425,22 @@ function Spinner(element) {
     padding: 3,
     speed:   .7,
     build:   true
-  }, arguments[1]);
+  }, arguments[1] || {});
 
   this._position = 0;
   this._state = 'stopped';
 
-  // IE VML needs the element build inside an element attached
-  // to the DOM, this allows you to delay the build and do it manually
-  if (this.options.build) this.build();
+  this.build();
 
-  Spinners.add(this);
+  All.add(this);
 }
-
-$B.Object.extend(Spinner.prototype, (function() {
+_.extend(Spinner.prototype, (function() {
   function remove() {
     if (!this.canvas) return;
 
     this.stop();
 
-    this.canvas.remove();
+    this.canvas.parentNode.removeChild(this.canvas);
 
     this.canvas = null;
     this.ctx = null;
@@ -300,23 +453,26 @@ $B.Object.extend(Spinner.prototype, (function() {
         workspaceRadius   = layout.workspace.radius,
         workspaceDiameter = workspaceRadius * 2;
 
-    $B.$(this.element).insert(
-        this.canvas = new $B.Element('canvas', {
-          height: workspaceDiameter,
-          width:  workspaceDiameter
-        }).setStyle({ zoom: 1 })
-    );
+    this.canvas = document.createElement('canvas');
+    this.canvas.style.zoom = 1;
+    this.canvas.height = workspaceDiameter;
+    this.canvas.width = workspaceDiameter;
+
+    // IE bug: append canvas to the body before getting context
+    document.body.appendChild(this.canvas);
 
     // init canvas
     if (window.G_vmlCanvasManager)
-      G_vmlCanvasManager.initElement(this.canvas.source);
+      G_vmlCanvasManager.initElement(this.canvas);
 
-    this.ctx = this.canvas.source.getContext('2d');
+    this.ctx = this.canvas.getContext('2d');
     this.ctx.globalAlpha = this.options.opacity;
-
+  
+    // IE: append to element after getting context
+    this.element.appendChild(this.canvas);
+    
     this.ctx.translate(workspaceRadius, workspaceRadius);
     this.drawPosition(0);
-
     return this;
   }
 
@@ -332,7 +488,7 @@ $B.Object.extend(Spinner.prototype, (function() {
     this.ctx.clearRect(workspaceNegRadius, workspaceNegRadius, workspaceDiameter, workspaceDiameter);
 
     var rotation  = radian(360 / dashes),
-        opacities = scrollArray(workspace.opacities, position * -1);
+        opacities = _.scroll(workspace.opacities, position * -1);
 
     for (var i = 0, len = dashes; i < len; i++) {
       this.drawDash(opacities[i], this.options.color);
@@ -363,7 +519,7 @@ $B.Object.extend(Spinner.prototype, (function() {
   function _nextPosition() {
     var ms = this.options.speed * 1000 / this.options.dashes;
     this.nextPosition();
-    this._playTimer = window.setTimeout($B.Function.bind(_nextPosition, this), ms);
+    this._playTimer = window.setTimeout(_.bind(_nextPosition, this), ms);
   }
 
   function nextPosition() {
@@ -383,7 +539,7 @@ $B.Object.extend(Spinner.prototype, (function() {
     this._state = 'playing';
 
     var ms = this.options.speed * 1000 / this.options.dashes;
-    this._playTimer = window.setTimeout($B.Function.bind(_nextPosition, this), ms);
+    this._playTimer = window.setTimeout(_.bind(_nextPosition, this), ms);
     return this;
   }
 
@@ -472,10 +628,25 @@ $B.Object.extend(Spinner.prototype, (function() {
     return layout;
   } 
 
+  function isAttached() {
+    if (!this.element) return false;
+    var topAncestor = findTopAncestor(this.element);
+    return !!(topAncestor && topAncestor.body);
+  }
+
+  function findTopAncestor(node) {
+    var ancestor = node;
+    while(ancestor && ancestor.parentNode) {
+      ancestor = ancestor.parentNode;
+    }
+    return ancestor;
+  }
+
   return {
     remove:        remove,
     build:         build,
     getLayout:     getLayout,
+    isAttached:    isAttached,
     _nextPosition: _nextPosition,
     nextPosition:  nextPosition,
     drawPosition:  drawPosition,
@@ -489,19 +660,15 @@ $B.Object.extend(Spinner.prototype, (function() {
 })());
 
 // expose
-window.Spinner = Spinner;
+window.Spinners = Spinners;
 
-Spinners.start();
+// start
+Spinners.init();
 
 // if there's no support for Canvas/VML, make sure everything dies silently
 if (!Spinners.enabled) {
-  $B.each($B.Object.keys(Spinner.prototype), function(name) {
-    Spinner.prototype[name] = $B.K;
-  });
-  Spinner = $B.K;
-
-  $B.each('get add remove removeDetached'.split(' '), function(name) {
-    Spinners[name] = $B.K;
+  _.each('create get remove play stop pause toggle'.split(' '), function(name) {
+    Spinners[name] = function() { return this; };
   });
 }
-})(Bridge);
+})();

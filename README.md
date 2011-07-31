@@ -6,60 +6,95 @@ Throw out your animated gifs! Spinners is a JavaScript library that gives you hi
 
 ## Installation
 
-Spinners uses [BridgeJS][1] to work with your JavaScript framework of choice. [Get BridgeJS][1], upload all the files and include bridge.js after one of the JavaScript libraries it supports.
+Spinners requires [ExplorerCanvas][1] to work with Canvas in Internet Explorer, download and include it using a conditional comment and include Spinners below it.
 
-Download [ExplorerCanvas][2] and include it.
-
-Include spinners.js below these files.
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-    <script type="text/javascript" src="/js/bridge/bridge.js"></script>
-    
     <!--[if lt IE 9]>
       <script type="text/javascript" src="/js/excanvas.js"></script>
     <![endif]-->
     
-    <script type="text/javascript" src="/js/spinners.js"></script>
+    <script type="text/javascript" src="/js/spinners.min.js"></script>
 
 
 ## Usage
 
-Creating a spinner is as easy as:
+Creating one or more spinners can be done using a HTMLElement or a CSS Selector (if you've included a CSS Selector Engine). Spinners will start out in a paused state because animation takes up a small amount of browser resources, this is why it's recommended to only animate spinners when they are visible on the page and pause them once you hide them.
 
-    new Spinner('id').play();
-        
-    // or provide a dom node
-    new Spinner(document.getElementById('id')).play();
+CSS Selectors are only available if you've included a CSS Selector Engine, Spinners supports Sizzle (jQuery 1.4+/Prototype 1.7+), NWMatcher and Slick (MooTools 1.3+).
+
+    Spinners.create('#mySpinner');
+    Spinners.create('#mySpinner').play();  // will start the animation
+    Spinners.create('#mySpinner').pause(); // pauses the spinner
+    
+    // or provide a DOM node
+    Spinners.create(document.getElementById('mySpinner')).play();
+    
+    // multiple spinners using a CSS Selector
+    Spinners.create('.loading').play();
 
 To create more advanced spinners you can provide an optional second parameter with options:
 
-    new Spinner('insertSpinner', {
+    Spinners.create('.loading', {
       radii:     [32, 42],
       color:     '#ed145b',
       dashWidth: 1,
-      dashes:    75,
+      dashes:    20,
       opacity:   .8,
       speed:     .7
     }).play();
 
-The radii option is an array containing the inner (empty) and outer radius of your spinner, you could say that they control the length of a dash. 
 
-There are some controls available:
+#### Collections
 
-    var mySpinner = new Spinner().play();
-    mySpinner.pause();
-    mySpinner.toggle();
-    mySpinner.stop();
+`Spinners.create` returns a Collection object that controls a number of spinners.
 
-Once you no longer need the spinner you can remove it using:
+    var spinners = Spinners.create('.loading');
+    spinners.play();
 
-    mySpinner.remove();
+Spinners created using `Spinners.create` can be retrieved using `Spinners.get`, this way you don't have to keep track of the Collection.
+
+    Spinners.create('.loading');
+    Spinners.get('.loading').pause();
+
+
+#### Controls
+
+The methods `play`, `pause`, `stop`, `toggle` and `remove` are available on Collections returned by `Spinners.create` and `Spinners.get`.
+
+    Spinners.create('.loading').play();
+    Spinners.get('.loading').pause();
+    Spinners.get('.loading').stop();
+    Spinners.get('.loading').remove();
+    Spinners.get(document.getElementById('mySpinner')).toggle();
+
+They can also be used directly on the `Spinners` object using a CSS Selector or a HTMLElement, this allows chaining on different Collections.
+
+    Spinners.create('#first .loading').play();
+    Spinners.create('#second .loading');
+    
+    Spinners.play('#first loading').pause('#second .loading');
+    Spinners.remove('#first .loading').play('#second loading');
+    
+    Spinners.toggle(document.getElementById('mySpinner'));
+
+
+#### Removal
+
+The `remove` method will take the spinner out of the DOM when you no longer need it.
+
+    Spinners.get('.loading').remove();
 
 It might be easier to just remove the elements you've attached spinners to and use `Spinners.removeDetached`, this function is also called automatically each time you create a new spinner.
 
-    // after deleting elements with spinners or doing some ajax updates
+    // after deleting elements with spinners or doing some ajax updates it's recommended to call:
     Spinners.removeDetached();
 
 
-  [1]: http://www.github.com/staaky/bridgejs
-  [2]: http://explorercanvas.googlecode.com
+#### Dimensions
+
+In case you need to work with the dimensions of a spinner you can get those using `Spinners.getDimensions`
+
+    var dimensions = Spinners.getDimensions(document.getElementById('mySpinner'));
+    // dimensions; //--> { width: 28, height: 28 }
+
+
+  [1]: http://explorercanvas.googlecode.com
