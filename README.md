@@ -1,7 +1,7 @@
 Spinners
 =======
 
-Throw out your animated gifs! Spinners is a JavaScript library that gives you highly configurable loading animations using nothing but Canvas (and VML on Internet Explorer).
+Spinners is a JavaScript library that gives you highly configurable loading animations using nothing but Canvas (and VML on Internet Explorer).
 
 
 ## Installation
@@ -43,7 +43,7 @@ To create more advanced spinners you can provide an optional second parameter wi
     }).play();
 
 
-#### Collections
+### Collections
 
 `Spinners.create` returns a Collection object that controls a number of spinners.
 
@@ -56,7 +56,7 @@ Spinners created using `Spinners.create` can be retrieved using `Spinners.get`, 
     Spinners.get('.loading').pause();
 
 
-#### Controls
+### Controls
 
 The methods `play`, `pause`, `stop`, `toggle` and `remove` are available on Collections returned by `Spinners.create` and `Spinners.get`.
 
@@ -71,13 +71,13 @@ They can also be used directly on the `Spinners` object using a CSS Selector or 
     Spinners.create('#first .loading').play();
     Spinners.create('#second .loading');
     
-    Spinners.play('#first loading').pause('#second .loading');
-    Spinners.remove('#first .loading').play('#second loading');
+    Spinners.play('#first .loading').pause('#second .loading');
+    Spinners.remove('#first .loading').play('#second .loading');
     
     Spinners.toggle(document.getElementById('mySpinner'));
 
 
-#### Removal
+### Removal
 
 The `remove` method will take the spinner out of the DOM when you no longer need it.
 
@@ -89,7 +89,7 @@ It might be easier to just remove the elements you've attached spinners to and u
     Spinners.removeDetached();
 
 
-#### Dimensions
+### Dimensions
 
 In case you need to work with the dimensions of a spinner you can get those using `Spinners.getDimensions`
 
