@@ -1,0 +1,54 @@
+/*! 
+ * Pretty printing styles. Used with prettify.js.
+ * Oblivion Theme by Nick Stakenburg
+ */
+
+pre .str, code .str { color: #a5c261; } /* string  - lemon */
+pre .kwd, code .kwd { color: #cc7833; } /* keyword - orange */
+pre .com, code .com { color: #bc9458; font-style: italic; } /* comment - brown */
+pre .typ, code .typ { color: #6d9cbe; } /* type - blue */
+pre .lit, code .lit { color: #6d9cbe; } /* literal - blue*/
+pre .pun, code .pun { color: #fff; } /* punctuation - white */
+pre .pln, code .pln { color: #fff; } /* plaintext - white */
+pre .tag, code .tag { color: #ffc66d; } /* html/xml tag - yellow */
+pre .atn, code .atn { color: #fff; } /* html/xml attribute name  - white */
+pre .atv, code .atv { color: #a5c261; } /* html/xml attribute value - green */
+pre .dec, code .dec { color: #6d9cbe; } /* decimal - blue */
+
+pre.prettyprint code {
+  background-color: #2b2b2b;
+	padding: 8px;
+	font-family: "Lucida Console", "Droid Sans Mono", "Courier New", "Lucida Sans Unicode", monospace, sans-serif;
+	font-size: 11px;
+}
+
+pre.prettyprint {
+  width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+	padding: 0;
+  line-height: 20px;
+  overflow: auto;
+  overflow-Y: hidden;
+  white-space: pre-wrap;
+}
+
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums { margin-top: 0; margin-bottom: 0; color: #AEAEAE; } /* IE indents via margin-left */
+li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8 { list-style-type: none }
+/* Alternate shading for lines */
+li.L1,li.L3,li.L5,li.L7,li.L9 { }
+
+@media print {
+  pre .str, code .str { color: #060; }
+  pre .kwd, code .kwd { color: #006; font-weight: bold; }
+  pre .com, code .com { color: #600; font-style: italic; }
+  pre .typ, code .typ { color: #404; font-weight: bold; }
+  pre .lit, code .lit { color: #044; }
+  pre .pun, code .pun { color: #440; }
+  pre .pln, code .pln { color: #000; }
+  pre .tag, code .tag { color: #006; font-weight: bold; }
+  pre .atn, code .atn { color: #404; }
+  pre .atv, code .atv { color: #060; }
+}

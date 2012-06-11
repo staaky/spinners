@@ -1,13 +1,15 @@
 Spinners
 =======
 
-Spinners is a JavaScript library that gives you highly configurable loading animations using nothing but Canvas (and VML on Internet Explorer).
+Spinners is a JavaScript library that creates pixel-perfect cross-browser loading icons through Canvas. Written for use in [Lightview][1] and [Tipped][2], feel free to use it in your own projects.
 
 
 ## Installation
 
-Spinners requires [ExplorerCanvas][1] to work with Canvas in Internet Explorer, download and include it using a conditional comment and include Spinners below it.
+Spinners is based on jQuery, it also requires [ExplorerCanvas][3] to work in Internet Explorer 8 and below, include both scripts above Spinners.
 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    
     <!--[if lt IE 9]>
       <script type="text/javascript" src="/js/excanvas.js"></script>
     <![endif]-->
@@ -17,29 +19,26 @@ Spinners requires [ExplorerCanvas][1] to work with Canvas in Internet Explorer, 
 
 ## Usage
 
-Creating one or more spinners can be done using a HTMLElement or a CSS Selector (if you've included a CSS Selector Engine). Spinners will start out in a paused state because animation takes up a small amount of browser resources, this is why it's recommended to only animate spinners when they are visible on the page and pause them once you hide them.
+Spinners can be created using a DOM Node or a CSS Selector. Spinners start out in a paused state because animation takes up a small amount of browser resources, because of this it's recommended to only animate spinners when they are visible.
 
-CSS Selectors are only available if you've included a CSS Selector Engine, Spinners supports Sizzle (jQuery 1.4+/Prototype 1.7+), NWMatcher and Slick (MooTools 1.3+).
-
-    Spinners.create('#mySpinner');
-    Spinners.create('#mySpinner').play();  // will start the animation
-    Spinners.create('#mySpinner').pause(); // pauses the spinner
-    
-    // or provide a DOM node
-    Spinners.create(document.getElementById('mySpinner')).play();
+    var spinner = Spinners.create(document.getElementById('mySpinner')).play(); // will start the animation
+    spinner.pause(); // pauses the spinner
     
     // multiple spinners using a CSS Selector
-    Spinners.create('.loading').play();
+    var spinners = Spinners.create('.loading').play();
+    spinners.pause();
 
-To create more advanced spinners you can provide an optional second parameter with options:
+Options can be used to customize the spinners:
 
     Spinners.create('.loading', {
-      radii:     [32, 42],
-      color:     '#ed145b',
-      dashWidth: 1,
-      dashes:    20,
-      opacity:   .8,
-      speed:     .7
+      radius: 22,
+      dashes: 30,
+      width: 2.5,
+      height: 10,
+      opacity: 1,
+      padding: 3,
+      rotation: 600,
+      color: '#000000'
     }).play();
 
 
@@ -50,7 +49,7 @@ To create more advanced spinners you can provide an optional second parameter wi
     var spinners = Spinners.create('.loading');
     spinners.play();
 
-Spinners created using `Spinners.create` can be retrieved using `Spinners.get`, this way you don't have to keep track of the Collection.
+Spinners created using `Spinners.create` can be retrieved using `Spinners.get`, this removes the need to store the Collection.
 
     Spinners.create('.loading');
     Spinners.get('.loading').pause();
@@ -66,7 +65,7 @@ The methods `play`, `pause`, `stop`, `toggle` and `remove` are available on Coll
     Spinners.get('.loading').remove();
     Spinners.get(document.getElementById('mySpinner')).toggle();
 
-They can also be used directly on the `Spinners` object using a CSS Selector or a HTMLElement, this allows chaining on different Collections.
+They can also be used directly on the `Spinners` object using a CSS Selector or a DOM Node, this allows chaining on different Collections.
 
     Spinners.create('#first .loading').play();
     Spinners.create('#second .loading');
@@ -77,24 +76,42 @@ They can also be used directly on the `Spinners` object using a CSS Selector or 
     Spinners.toggle(document.getElementById('mySpinner'));
 
 
+### Positioning
+
+Options can be changed after initialization using `setOptions`.
+
+    var spinners = Spinners.create('.loading');
+    spinners.setOptions({ color: '#ff0000' });
+
+
 ### Removal
 
-The `remove` method will take the spinner out of the DOM when you no longer need it.
+The `remove` method will remove the created spinners from the DOM.
 
     Spinners.get('.loading').remove();
 
-It might be easier to just remove the elements you've attached spinners to and use `Spinners.removeDetached`, this function is also called automatically each time you create a new spinner.
 
-    // after deleting elements with spinners or doing some ajax updates it's recommended to call:
+It might be easier to just remove elements from the DOM followed by a call to `Spinners.removeDetached`, this function is also called automatically each time a new spinner is created.
+
+    // after deleting elements with spinners or doing some ajax updates
     Spinners.removeDetached();
+
+
+### Positioning
+
+Use `center` to center the element that holds the spinner within its parent. This is done using absolute positioning, the parent element will be given `position:relative`. In this example #spinner will be given `position:absolute` and its parent `position:relative`.
+
+    Spinners.create('#spinner').center().play();
 
 
 ### Dimensions
 
-In case you need to work with the dimensions of a spinner you can get those using `Spinners.getDimensions`
+`Spinners.getDimensions` will return the dimensions of a created spinner. This could be useful when `center()` isn't used to position the spinner.
 
     var dimensions = Spinners.getDimensions(document.getElementById('mySpinner'));
     // dimensions; //--> { width: 28, height: 28 }
 
 
-  [1]: http://explorercanvas.googlecode.com
+  [1]: http://projects.nickstakenburg.com/lightview
+  [2]: http://projects.nickstakenburg.com/tipped
+  [3]: http://explorercanvas.googlecode.com

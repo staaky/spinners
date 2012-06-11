@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Spinners</title>
+
+<!-- Spinners -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<!--[if lt IE 9]>
+  <script type="text/javascript" src="../js/excanvas/excanvas.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../js/spinners/spinners.js"></script>
+
+
+<!-- GUI related -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/ui-lightness/jquery-ui.css" />
+
+<script type="text/javascript" src="js/prettify.js"></script>
+<link rel="stylesheet" type="text/css" href="css/prettify/prettify-oblivion-ns.css" />
+
+<script type="text/javascript" src="js/gui.js"></script>
+<link rel="stylesheet" type="text/css" href="css/gui.css" />
+
+</head>
+<body>
+<div id='page'>
+  <h1 id='title'>Spinners</h1>
+
+  <div id='description'>
+	  <p>This is a GUI for <a href='http://github.com/staaky/spinners' target='_blank'>Spinners</a>, 
+	  a Javascript library that creates pixel-perfect cross-browser loading icons through Canvas. 
+	  Written for use in <a href='http://projects.nickstakenburg.com/lightview' target='_blank'>Lightview</a> and 
+	  <a href='http://projects.nickstakenburg.com/tipped' target='_blank'>Tipped</a>, 
+	  feel free to use it in your own projects.</p>
+  </div>
+  
+  <div id='gui'>
+    <div class='result'>
+	    <div class='frame'>
+	      <div id='spinner'><!-- spinner will go here --></div>
+	    </div>
+	    
+	    <div class='controls'>
+	      <input type='button' value='&#x25ba;' data-control='play'/>
+	      <input type='button' value='||' data-control='pause'/>
+	    </div>
+    </div>
+    
+    
+    <form class='modify'>
+      <div class='option'>
+        <label>radius</label>
+        <div class='slider' data-slider-min='0' data-slider-max='50'><!-- [] --></div>
+        <input type='text' class='value' name='radius' value='30'/>
+      </div>
+      
+      <div class='option'>
+        <label>dashes</label>
+        <div class='slider' data-slider-min='2' data-slider-max='100'><!-- [] --></div>
+        <input type='text' class='value' name='dashes' value='30'/>
+      </div>
+      
+      <div class='option'>
+        <label>width</label>
+        <div class='slider' data-slider-min='1' data-slider-max='15' data-slider-step='0.1'><!-- [] --></div>
+        <input type='text' class='value' name='width' value='2.5'/>
+      </div>
+      
+      <div class='option'>
+        <label>height</label>
+        <div class='slider' data-slider-min='1' data-slider-max='50'><!-- [] --></div>
+        <input type='text' class='value' name='height' value='10'/>
+      </div>
+    
+      <div class='option'>
+        <label>opacity</label>
+        <div class='slider' data-slider-min='0' data-slider-max='1' data-slider-step='.01'><!-- [] --></div>
+        <input type='text' class='value' name='opacity' value='1'/>
+      </div>
+      
+      <div class='option'>
+        <label>padding</label>
+        <div class='slider' data-slider-min='0' data-slider-max='10'><!-- [] --></div>
+        <input type='text' class='value' name='padding' value='3'/>
+      </div>
+      
+      <div class='option'>
+        <label>rotation</label>
+        <div class='slider'data-slider-min='100' data-slider-max='2500' data-slider-step='50'><!-- [] --></div>
+        <input type='text' class='value' name='rotation' value='700'/>
+      </div>
+      
+      <div class='option option-color'>
+        <label>color</label>
+        <input type='text' name='color' value='#000000' size='7'/>
+      </div>
+    </form>
+    
+    <div class='code'>
+   
+      <pre><code>var spinner = Spinners.create('#spinner', {
+  radius: #{radius},
+  dashes: #{dashes},
+  width: #{width},
+  height: #{height},
+  opacity: #{opacity},
+  padding: #{padding},
+  rotation: #{rotation},
+  color: '#{color}'
+}).play();
+
+spinner.center();</code></pre>
+     
+    </div>
+  
+  </div>
+  
+  <div id='footer'>
+    <a href='http://www.nickstakenburg.com' target='_blank' class='author'><img src='images/footer_nickstakenburg.png' alt=''/></a>
+  </div>
+  
+  
+</div>
+</body>
+</html>
