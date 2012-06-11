@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Spinners</title>
+<meta name="description" content="Spinners is a Javascript library that creates pixel-perfect cross-browser loading icons through Canvas"/>
 
 <!-- Spinners -->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
@@ -55,9 +56,9 @@
       </div>
       
       <div class='option'>
-        <label>dashes</label>
-        <div class='slider' data-slider-min='2' data-slider-max='100'><!-- [] --></div>
-        <input type='text' class='value' name='dashes' value='30'/>
+        <label>height</label>
+        <div class='slider' data-slider-min='1' data-slider-max='50'><!-- [] --></div>
+        <input type='text' class='value' name='height' value='10'/>
       </div>
       
       <div class='option'>
@@ -67,11 +68,11 @@
       </div>
       
       <div class='option'>
-        <label>height</label>
-        <div class='slider' data-slider-min='1' data-slider-max='50'><!-- [] --></div>
-        <input type='text' class='value' name='height' value='10'/>
+        <label>dashes</label>
+        <div class='slider' data-slider-min='2' data-slider-max='100'><!-- [] --></div>
+        <input type='text' class='value' name='dashes' value='30'/>
       </div>
-    
+      
       <div class='option'>
         <label>opacity</label>
         <div class='slider' data-slider-min='0' data-slider-max='1' data-slider-step='.01'><!-- [] --></div>
@@ -100,9 +101,9 @@
    
       <pre><code>var spinner = Spinners.create('#spinner', {
   radius: #{radius},
-  dashes: #{dashes},
-  width: #{width},
   height: #{height},
+  width: #{width},
+  dashes: #{dashes},
   opacity: #{opacity},
   padding: #{padding},
   rotation: #{rotation},
