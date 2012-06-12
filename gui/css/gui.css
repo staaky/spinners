@@ -2,9 +2,9 @@
 html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,fieldset,input{margin:0;padding:0}h1,h2,h3,h4,h5,h6,pre,code,address,caption,cite,code,th{font-size:1em;font-weight:normal;font-style:normal}ul,ol{list-style:none}fieldset,img{border:none}caption,th{text-align:left}table{border-collapse:collapse;border-spacing:0}
 
 body {
-	font: 11px/18px "Lucida Sans Unicode", "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
-	color: #333;
-	background-color: #efefef;
+  font: 11px/18px "Lucida Sans Unicode", "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
+  color: #333;
+  background-color: #efefef;
 }
 p { margin-bottom: 17px; }
 a { color: #0088cc; text-decoration: none; outline-style: none; }
@@ -18,21 +18,25 @@ h1 { font-size: 32px; line-height: 36px; font-family: "HelveticaNeue","Helvetica
 h2 { font-size: 11px; line-height: 17px; margin-bottom: 0; }
 
 #description {
-	float: left;
-	clear: both;
-	width: 100%;
-	margin-bottom: 18px;
+  float: left;
+  clear: both;
+  width: 100%;
+  margin-bottom: 18px;
 }
 
 #footer {
-	float: left;
-	clear: both;
-	width: 100%;
+  float: left;
+  clear: both;
+  width: 100%;
+  margin-bottom: 30px;
+  padding-top: 4px;
 }
+#footer .side { float: left; width: 49%; }
+#footer .right { float: right; }
 #footer .author { float: right; }
 
 input {
-	border: 1px solid #efefef;
+  border: 1px solid #efefef;
   border-top: 1px solid #cccccc;
   border-left: 1px solid #cccccc;
   font-size: 11px;
@@ -51,8 +55,8 @@ input {
 }
 
 #gui .result {
-	float: left;
-	width: 200px;
+  float: left;
+  width: 200px;
   margin-bottom: 18px;
 }
 #gui .result .frame {
@@ -117,26 +121,26 @@ input {
 }
 
 #gui .option {
-	float: left;
-	clear: both;
-	width: 100%;
-	margin-bottom: 10px;
-	line-height: 20px;
+  float: left;
+  clear: both;
+  width: 100%;
+  margin-bottom: 10px;
+  line-height: 20px;
 }
 #gui .option label {
-	float: left;
-	width: 80px;
+  float: left;
+  width: 80px;
 }
 #gui .option .slider {
-	float: left;
-	position: relative;
-	width: 300px;
-	margin-top: 4px;
+  float: left;
+  position: relative;
+  width: 300px;
+  margin-top: 4px;
 }
 #gui .option input.value {
-	float: right;
-	text-align: right;
-	width: 60px;
+  float: right;
+  text-align: right;
+  width: 60px;
 }
 
 /*
@@ -150,9 +154,9 @@ input {
 
 #gui pre {
   margin-bottom: 18px;
-	float: left;
-	clear: both;
-	width: 100%;
+  float: left;
+  clear: both;
+  width: 100%;
 }
 
 #gui pre code {
