@@ -3,6 +3,8 @@ Spinners
 
 Spinners is a JavaScript library that creates pixel-perfect cross-browser loading icons through Canvas. Written for use in [Lightview][1] and [Tipped][2], feel free to use it in your own projects.
 
+Demo (GUI): http://projects.nickstakenburg.com/spinners
+
 
 ## Installation
 
