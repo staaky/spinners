@@ -87,8 +87,14 @@
       
       <div class='option'>
         <label>rotation</label>
-        <div class='slider'data-slider-min='100' data-slider-max='2500' data-slider-step='50'><!-- [] --></div>
+        <div class='slider' data-slider-min='100' data-slider-max='3000' data-slider-step='50'><!-- [] --></div>
         <input type='text' class='value' name='rotation' value='700'/>
+      </div>
+
+      <div class='option'>
+        <label>fadeOutSpeed</label>
+        <div class='slider' data-slider-min='-8' data-slider-max='8' data-slider-step='1'><!-- [] --></div>
+        <input type='text' class='value' name='fadeOutSpeed' value='0'/>
       </div>
       
       <div class='option option-color'>
@@ -107,6 +113,7 @@
   opacity: #{opacity},
   padding: #{padding},
   rotation: #{rotation},
+  fadeOutSpeed: #{fadeOutSpeed},
   color: '#{color}'
 }).play();
 

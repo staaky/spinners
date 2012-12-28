@@ -80,7 +80,7 @@ $(document).ready(function() {
       
       $(this).addClass('disabled').siblings().removeClass('disabled');
     });
-  })
+  });
   
   // collect the options
   function getOptions() {

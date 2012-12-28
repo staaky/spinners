@@ -55,10 +55,11 @@ var _ = {
   }
 };
 
-function getOpacityArray(dashes) {
-  var step  = 1 / dashes, array = [];
-  for (var i = 0;i<dashes;i++)
-    array.push((i + 1) * step);
+function getOpacityArray(dashes, fadeOutSpeed) {
+  var step = 1 / dashes, array = [];
+  for (var i = 0; i<dashes;i++) {
+    array.push((i + fadeOutSpeed) * step);
+  }
   return array;
 }
 
@@ -378,6 +379,7 @@ function Spinner(element) {
     width: 1.8,
     opacity: 1,
     padding: 3,
+    fadeOutSpeed: 0,
     rotation: 700
   }, arguments[1] || {}));
 
@@ -585,7 +587,7 @@ $.extend(Spinner.prototype, {
     var layout = {
       workspace: {
         radius: radius,
-        opacities: getOpacityArray(dashes)
+        opacities: getOpacityArray(dashes, this.options.fadeOutSpeed)
       },
       dash: {
         position: {

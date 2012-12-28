@@ -129,12 +129,12 @@ input {
 }
 #gui .option label {
   float: left;
-  width: 80px;
+  width: 90px;
 }
 #gui .option .slider {
   float: left;
   position: relative;
-  width: 300px;
+  width: 290px;
   margin-top: 4px;
 }
 #gui .option input.value {
