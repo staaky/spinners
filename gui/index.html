@@ -47,7 +47,7 @@
 	    </div>
     </div>
     
-    
+
     <form class='modify'>
       <div class='option'>
         <label>radius</label>
@@ -87,14 +87,32 @@
       
       <div class='option'>
         <label>rotation</label>
-        <div class='slider'data-slider-min='100' data-slider-max='2500' data-slider-step='50'><!-- [] --></div>
-        <input type='text' class='value' name='rotation' value='700'/>
+        <div class='slider' data-slider-min='100' data-slider-max='3000' data-slider-step='50'><!-- [] --></div>
+        <input type='text' class='value' name='rotation' value='1400'/>
+      </div>
+
+      <div class='option'>
+        <label>fadeOutSpeed</label>
+        <div class='slider' data-slider-min='-8' data-slider-max='8' data-slider-step='1'><!-- [] --></div>
+        <input type='text' class='value' name='fadeOutSpeed' value='0'/>
       </div>
       
       <div class='option option-color'>
         <label>color</label>
         <input type='text' name='color' value='#000000' size='7'/>
       </div>
+
+      <div class='option option-color'>
+        <label>pauseColor</label>
+        <input type='text' name='pauseColor' value='#000000' size='7'/>
+      </div>
+
+      <div class='option'>
+        <label>pauseOpacity</label>
+        <div class='slider' data-slider-min='0' data-slider-max='1' data-slider-step='.01'><!-- [] --></div>
+        <input type='text' class='value' name='pauseOpacity' value='0.40'/>
+      </div>
+
     </form>
     
     <div class='code'>
@@ -107,7 +125,10 @@
   opacity: #{opacity},
   padding: #{padding},
   rotation: #{rotation},
-  color: '#{color}'
+  fadeOutSpeed: #{fadeOutSpeed},
+  color: '#{color}',
+  pauseColor: '#{pauseColor}',
+  pauseOpacity: #{pauseOpacity}
 }).play();
 
 spinner.center();</code></pre>
