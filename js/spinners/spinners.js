@@ -380,6 +380,8 @@ function Spinner(element) {
     opacity: 1,
     padding: 3,
     fadeOutSpeed: 0,
+    pauseColor: '#000',
+    pauseOpacity: 0.3,
     rotation: 700
   }, arguments[1] || {}));
 
@@ -387,6 +389,7 @@ function Spinner(element) {
 
   All.add(this);
 }
+
 $.extend(Spinner.prototype, {
   setOptions: function(options) {
     this.options = $.extend({}, this.options, options || {});
@@ -429,6 +432,7 @@ $.extend(Spinner.prototype, {
     }
 
     if (this._centered) this.center();
+    if (this._state == "paused") this._renderPause();
   },
 
   remove: function() {
@@ -466,7 +470,6 @@ $.extend(Spinner.prototype, {
     this.ctx.translate(radius, radius);
     return this;
   },
-
 
   /*
    * Draw
@@ -516,7 +519,6 @@ $.extend(Spinner.prototype, {
     this.drawPosition(this._position);
   },
 
-
   /*
    * Controls
    */
@@ -532,8 +534,9 @@ $.extend(Spinner.prototype, {
 
   pause: function() {
     if (this._state == 'paused') return;
-
     this._pause();
+
+    if (this._layout !== null) this._renderPause();
 
     this._state = 'paused';
     return this;
@@ -626,6 +629,19 @@ $.extend(Spinner.prototype, {
     });
 
     this._centered = true;
+  },
+
+  _renderPause: function() {
+    var radius    = this.getLayout().workspace.radius,
+        dashes    = this.options.dashes,
+        rotation  = radian(360 / dashes);
+
+    this.ctx.clearRect(radius * -1, radius * -1, radius * 2, radius * 2);
+
+    for (var i = 0, len = dashes; i < len; i++) {
+      this.drawDash(this.options.pauseOpacity, this.options.pauseColor);
+      this.ctx.rotate(rotation);
+    }
   }
 });
 

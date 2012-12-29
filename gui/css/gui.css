@@ -61,8 +61,8 @@ input {
 }
 #gui .result .frame {
   float: left;
-  width: 200px;
-  height: 200px;
+  width: 230px;
+  height: 230px;
   position: relative;
   border: 1px solid #e0e0e0;
   border-top-color: #dcdcdc;
@@ -113,10 +113,9 @@ input {
   cursor: default;
 }
 
-
 #gui .modify {
   float: right;
-  width: 480px;
+  width: 450px;
   margin-bottom: 18px;
 }
 
@@ -124,17 +123,17 @@ input {
   float: left;
   clear: both;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
   line-height: 20px;
 }
 #gui .option label {
   float: left;
-  width: 90px;
+  width: 100px;
 }
 #gui .option .slider {
   float: left;
   position: relative;
-  width: 290px;
+  width: 260px;
   margin-top: 4px;
 }
 #gui .option input.value {

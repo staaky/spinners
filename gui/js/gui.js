@@ -59,7 +59,7 @@ $(document).ready(function() {
     }
 
     // colors should start with #
-    if ($(this).attr('name') == 'color' && $(this).val().substr(0,1) != '#') {
+    if (($.inArray($(this).attr('name'), ['color','pauseColor']) != -1) && $(this).val().substr(0,1) != '#') {
       $(this).val('#' + $(this).val());
     }
 
@@ -93,6 +93,7 @@ $(document).ready(function() {
 
     // add color
     options.color = $("#gui input[name='color']").val();
+    options.pauseColor = $("#gui input[name='pauseColor']").val();
     
     return options;
   }
@@ -126,7 +127,7 @@ $(document).ready(function() {
       $.each(ho.split('&'), function(i, pair) {
         var p = pair.split('='), name = p[0], value = p[1];
         options[name] = value;
-        if (name != 'color') options[name] = parseFloat(options[name]);
+        if (name != 'color' && name != 'pauseColor') options[name] = parseFloat(options[name]);
         else if (options[name].substr(0,1) != '#') options[name] = '#' + options[name];
       });
       return options;
